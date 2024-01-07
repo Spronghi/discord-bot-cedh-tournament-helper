@@ -3,6 +3,7 @@ import { config } from 'dotenv'
 import http from 'http'
 import url from 'url'
 
+import logger from './logger.js'
 import { checkMsg, checkHistory } from './msg.js'
 
 config()
@@ -26,7 +27,7 @@ http.createServer((req, res) => {
 }).listen(4000);
 
 client.on("ready", () => {
-    console.log(`Logged in as ${client.user.tag}!`)
+    logger.info(`Logged in as ${client.user.tag}!`)
 })
 
 client.on("messageCreate", async (msg) => {
@@ -41,7 +42,7 @@ client.on("messageCreate", async (msg) => {
 
         await checkMsg(msg)
     } catch (error) {
-        console.error(error)
+        logger.error(error)
     }
 })
 

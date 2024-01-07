@@ -1,3 +1,5 @@
+import logger from './logger.js'
+
 export async function checkMsg(msg) {
     // TODO check if this can be removed at some point
     // if (!msg.author.bot) return;
@@ -18,22 +20,22 @@ export async function checkMsg(msg) {
     })
 
     if (isOnDiscord || isInTheNetherlands) {
-        console.log("NOT deleting message", logInfos)
+        logger.info("NOT deleting message", logInfos)
 
         return
     }
 
     msg.delete()
 
-    console.log("Deleted message", logInfos)
+    logger.info("Deleted message", logInfos)
 }
 
 export async function checkHistory(msg) {
     const messages = await msg.channel.messages.fetch({ limit: 100 })
 
-    console.log(`Checking ${messages.size} messages in channel`);
+    logger.info(`Checking ${messages.size} messages in channel`);
 
     const promises = messages.map(message => checkMsg(message))
-    await Promise.allSettled(promises).catch(console.log)
+    await Promise.allSettled(promises).catch(logger.error)
 }
 
