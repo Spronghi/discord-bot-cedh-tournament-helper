@@ -12,12 +12,12 @@ export async function checkMsg(msg) {
     const locationLine = lines.find(l => l.includes("location:"))
     const isInTheNetherlands = !!locationLine?.includes("netherlands")
 
-    const logInfos = JSON.stringify({
+    const logInfos = {
         isOnDiscord,
         isInTheNetherlands,
         locationLine,
         mediumLine
-    })
+    }
 
     if (isOnDiscord || isInTheNetherlands) {
         logger.info("NOT deleting message", logInfos)
