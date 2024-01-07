@@ -1,6 +1,8 @@
 import { Client, GatewayIntentBits } from 'discord.js'
 import { config } from 'dotenv'
 import http from 'http'
+import url from 'url'
+
 import { checkMsg, checkHistory } from './msg.js'
 
 config()
@@ -8,10 +10,18 @@ config()
 const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent] })
 
 http.createServer((req, res) => {
-    res.writeHead(200, {
-        'Content-type': 'text/plain'
-    });
-    res.write('Hey');
+    const { pathname } = url.parse(req.url)
+
+    if (pathname !== "/ping") {
+        res.writeHead(404, { 'Content-type': 'text/plain' });
+        res.write('Not Found');
+        res.end();
+
+        return
+    }
+
+    res.writeHead(200, { 'Content-type': 'text/plain' });
+    res.write('pong');
     res.end();
 }).listen(4000);
 
