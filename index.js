@@ -24,7 +24,7 @@ http.createServer((req, res) => {
     res.writeHead(200, { 'Content-type': 'text/plain' });
     res.write('pong');
     res.end();
-}).listen(4000);
+}).listen(80);
 
 client.on("ready", () => {
     logger.info(`Logged in as ${client.user.tag}!`)
